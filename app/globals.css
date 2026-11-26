@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* 視覺主題：紙本履歷＋紅筆批改 */
+@theme {
+  --color-paper: #f5f0e5;
+  --color-card: #fffdf8;
+  --color-ink: #1c1a17;
+  --color-muted: #625b50;
+  --color-line: #ded4c0;
+  --color-red: #bd3127;
+  --color-marker: #ffe58a;
+  --color-green: #1f6b4a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), "PingFang TC", "Microsoft JhengHei",
+    sans-serif;
+  --font-serif: var(--font-noto-serif), "Songti TC", serif;
+  --font-mono: var(--font-geist-mono), monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-paper);
+  /* 淡淡的紙張格點 */
+  background-image: radial-gradient(
+    rgb(28 26 23 / 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-marker);
+}
+
+@utility card {
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: var(--color-card);
+  box-shadow: 0 1px 0 rgb(28 26 23 / 0.04),
+    0 18px 40px -28px rgb(28 26 23 / 0.35);
+}
+
+/* 螢光筆畫線 */
+@utility marker {
+  background: linear-gradient(transparent 55%, var(--color-marker) 55%);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-ink);
+  color: var(--color-card);
+  font-weight: 600;
+  transition: background-color 150ms;
+  &:hover {
+    background: var(--color-red);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 3px;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background: var(--color-line);
+    color: var(--color-muted);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
